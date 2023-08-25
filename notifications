@@ -1,0 +1,26 @@
+# == Schema Information
+#
+# Table name: notifications
+#
+#  id                :integer          not null, primary key
+#  notification_type :integer          not null
+#  user_id           :integer          not null
+#  data              :string(1000)     not null
+#  read              :boolean          default(FALSE), not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  topic_id          :integer
+#  post_number       :integer
+#  post_action_id    :integer
+#  high_priority     :boolean          default(FALSE), not null
+#
+# Indexes
+#
+#  idx_notifications_speedup_unread_count                       (user_id,notification_type) WHERE (NOT read)
+#  index_notifications_on_post_action_id                        (post_action_id)
+#  index_notifications_on_topic_id_and_post_number              (topic_id,post_number)
+#  index_notifications_on_user_id_and_created_at                (user_id,created_at)
+#  index_notifications_on_user_id_and_topic_id_and_post_number  (user_id,topic_id,post_number)
+#  index_notifications_read_or_not_high_priority                (user_id,id DESC,read,topic_id) WHERE (read OR (high_priority = false))
+#  index_notifications_unique_unread_high_priority              (user_id,id) UNIQUE WHERE ((NOT read) AND (high_priority = true))
+#
